@@ -1,0 +1,8 @@
+target/
+*.dump
+#*#
+*~
+.DS_Store
+sym.txt
+template/objects
+template/MoeDictionary.xml

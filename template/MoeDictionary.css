@@ -1,0 +1,75 @@
+@charset "UTF-8";
+@namespace d url(http://www.apple.com/DTDs/DictionaryService-1.0.rng);
+
+d|entry {
+}
+
+h1	{
+	font-size: 140%;
+}
+
+h3	{
+	font-size: 100%;
+}
+
+.bopomofo, .bopomofo2, .pinyin {
+  display: block;
+  margin-top: -14px;
+  margin-bottom: 16px;
+  font-size: 80%;
+  font-family: BiauKai, serif;
+  color: gray;
+}
+
+.part-of-speech {
+  color: white;
+  background-color: #555;
+  border-radius: 3px;
+  padding: 1px 2px 1px 2px;
+  font-size: 100%;
+}
+
+.example {
+  font-style: italic;
+}
+
+.quote {
+
+}
+
+.synonyms:before {
+  content: "同義";
+  border: 1px solid gray;
+  color: gray;
+  padding: 1px 1px 1px 1px;
+  margin-right: 8px;
+}
+
+
+.synonyms {
+
+}
+
+.antonyms:before {
+  content: "反義";
+  border: 1px solid gray;
+  color: gray;
+  padding: 1px 1px 1px 1px;
+  margin-right: 8px;
+}
+
+.antonyms {
+
+}
+
+.link:before {
+  content: "參考";
+  border: 1px solid gray;
+  color: gray;
+  padding: 1px 1px 1px 1px;
+  margin-right: 8px;
+}
+
+.link {
+
+}
