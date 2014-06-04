@@ -100,19 +100,15 @@ case class Entry(
   釋義: Vector[String]
 ) {
   def pronounceXML(pr: String, cssClass: String)(t: String, c: String) = (t, c) match {
-    case (t, "") =>
+    case (t, "") ⇒
       <span d:pr={pr} class={cssClass}>{t}</span>
-    case ("", c) =>
+    case ("", c) ⇒
       <span d:pr={pr} class={cssClass}>{c}</span>
-    // case (t, c) =>
-    //   <span d:pr={pr} class={cssClass}>臺:{t}</span>
-    //   <span d:pr={pr} class={cssClass}>陸:{c}</span>
   }
 }
 
 object Entry {
   def apply(row: List[String]): Entry = {
-    // Entry(row(0), row(1), row(2), row(3).toLong, row(4), row(5))
     Entry(
       稿件版本 = row(0), 
       稿件階段 = row(1),
@@ -141,7 +137,6 @@ object MoeDictDataCSLD extends App {
 
   
   reader.toStream
-  // .take(500)
   .drop(1) // drop the first line (schema)
   .map(Entry.apply)
   .groupBy(_.字詞流水序.take(10))  // 有時會有 1000010070.001 這種形式
