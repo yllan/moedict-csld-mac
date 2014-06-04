@@ -78,10 +78,16 @@ Length of entries:
 43 : 3
 */
 
-trait Specialized
+trait Specialized {
+  def tag: scala.xml.Elem
+}
 
-case object 臺灣 extends Specialized
-case object 大陸 extends Specialized
+case object 臺灣 extends Specialized {
+  def tag = <span class="taiwan_specialized">臺</span>
+}
+case object 大陸 extends Specialized {
+  def tag = <span class="china_specialized">陸</span>
+}
 
 case class Entry(
   稿件版本: String, 
@@ -93,7 +99,7 @@ case class Entry(
   音序: Option[Int], // 1, 2. Sometimes 1., 2. 同一詞彙有不同發音, 字詞流水序相同的收集起來
   臺陸特有詞: Option[Specialized], // ▲ or ★, ▲=Taiwan, ★=China
   臺陸特有音: Option[Specialized], // ▲ or ★
-  臺灣音讀: String, // 注音，有時也會沒有
+  臺灣音讀: String, // 注音，有時也會沒有。例如大陸特有音的犯難（ㄈㄢˋㄋㄢˊ）
   臺灣漢拼: String, // 漢拼
   大陸音讀: String, // 注音，如果和臺灣音讀不同才會顯示
   大陸漢拼: String,
@@ -138,27 +144,29 @@ object MoeDictDataCSLD extends App {
   
   reader.toStream
   .drop(1) // drop the first line (schema)
+  // .take(20000)
   .map(Entry.apply)
   .groupBy(_.字詞流水序.take(10))  // 有時會有 1000010070.001 這種形式
   .map { case (id, entries) => {
     val indexes = (entries.toList.flatMap(e => List(e.正體字形, e.簡化字形)).toSet - "").toList
     val title = if (entries.head.正體字形 != "") entries.head.正體字形 else entries.head.簡化字形
+
     <d:entry id={id} title={title}>
     {indexes.map(idx => <d:index d:value={idx}/>)}
     {
       entries.sortBy(_.音序).map(e => {
-        <h1>{e.正體字形 + e.臺陸特有詞.map(s => s" 【$s】").getOrElse("")}</h1>
+        <h1>{e.正體字形}{e.臺陸特有詞.map(s => s.tag).orElse(e.臺陸特有音.map(s => s.tag)).getOrElse(<span></span>)}</h1>
         <span d:pr="bpmf" class="bopomofo">
-        {if (e.臺灣音讀 != "" && e.大陸音讀 != "") "【臺】" else ""}{e.臺灣音讀}
+        {if (e.臺灣音讀 != "" && e.大陸音讀 != "") 臺灣.tag else <span></span>}{e.臺灣音讀}
         </span>
         <span d:pr="bpmf" class="bopomofo">
-        {if (e.臺灣音讀 != "" && e.大陸音讀 != "") "【陸】" else ""}{e.大陸音讀}
+        {if (e.臺灣音讀 != "" && e.大陸音讀 != "") 大陸.tag else <span></span>}{e.大陸音讀}
         </span>
         <span d:pr="pinyin" class="pinyin">
-        {if (e.臺灣漢拼 != "" && e.大陸漢拼 != "") "【臺】" else ""}{e.臺灣漢拼}
+        {if (e.臺灣漢拼 != "" && e.大陸漢拼 != "") 臺灣.tag else <span></span>}{e.臺灣漢拼}
         </span>
         <span d:pr="pinyin" class="pinyin">
-        {if (e.臺灣漢拼 != "" && e.大陸漢拼 != "") "【陸】" else ""}{e.大陸漢拼}
+        {if (e.臺灣漢拼 != "" && e.大陸漢拼 != "") 大陸.tag else <span></span>}{e.大陸漢拼}
         </span>
         <div>
           <ol>{

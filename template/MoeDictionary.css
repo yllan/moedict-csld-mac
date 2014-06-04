@@ -12,6 +12,18 @@ h3	{
 	font-size: 100%;
 }
 
+.china_specialized, .taiwan_specialized {
+  font-size: 12pt;
+  padding: 3px;
+  margin-left: 8px;
+  margin-right: 4px;
+  border-radius: 2px;
+  color: white;
+  font-weight: lighter;;
+  font-family: Helvetica, sans-serif;
+  background-color: #444;
+}
+
 .bopomofo, .bopomofo2 {
   display: block;
   margin-top: -14px;
@@ -23,8 +35,8 @@ h3	{
 
 .pinyin {
   display: block;
-  margin-top: -14px;
-  margin-bottom: 16px;
+  margin-top: -10px;
+  margin-bottom: 20px;
   font-size: 100%;
   font-family: Helvetica, serif;
   color: gray;
