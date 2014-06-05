@@ -2,6 +2,7 @@ package tw.`3du`
 
 import com.github.tototoshi.csv._
 import java.io._
+import scala.xml._
 
 /*
 0: 稿件版本
@@ -172,7 +173,7 @@ object MoeDictDataCSLD extends App {
           <ol>{
             e.釋義.map(definition =>
               <li><p class="definition">{
-                """^\d+\.""".r.replaceFirstIn(definition, "")
+                Unparsed("""^\d+\.""".r.replaceFirstIn(definition, ""))
               }</p></li>
             )
           }</ol>
