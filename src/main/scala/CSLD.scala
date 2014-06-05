@@ -173,7 +173,7 @@ object MoeDictDataCSLD extends App {
           <ol>{
             e.釋義.map(definition =>
               <li><p class="definition">{
-                Unparsed("""^\d+\.""".r.replaceFirstIn(definition, ""))
+                Unparsed("""^\d+\.""".r.replaceFirstIn(definition, "").replace("▲", 臺灣.tag.toString).replace("★", 大陸.tag.toString))
               }</p></li>
             )
           }</ol>
